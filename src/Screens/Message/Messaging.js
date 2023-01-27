@@ -73,11 +73,12 @@ const Messaging = ({navigation, route}) => {
     socketServices.emit('send_message', {
       id: message.length + 1,
       text: message,
-      img: fileData,
+      img: fileData.length > 0 && fileData,
       user: user,
       time: time,
     });
     setMessage('');
+    setFileData([]);
   };
 
   const handleFilePicker = async () => {
