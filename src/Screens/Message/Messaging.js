@@ -116,7 +116,7 @@ const Messaging = ({navigation, route}) => {
           </View>
         </View>
 
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -129,7 +129,7 @@ const Messaging = ({navigation, route}) => {
           <TouchableOpacity style={{marginLeft: moderateScale(12)}}>
             <Image source={imagePath.icCalls} />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       {/* //Rest Screen */}
@@ -152,13 +152,6 @@ const Messaging = ({navigation, route}) => {
           </View>
 
           <View style={styles.messaginginputContainer}>
-            <TouchableOpacity
-              onPress={() => handleFilePicker()}
-              style={{
-                marginTop: moderateScale(8),
-              }}>
-              <Image source={imagePath.icPlus} />
-            </TouchableOpacity>
             <View
               style={{
                 ...styles.messaginginput,
@@ -183,6 +176,17 @@ const Messaging = ({navigation, route}) => {
                 placeholder="Enter Message here"
                 autoCorrect={false}
               />
+              <TouchableOpacity
+                onPress={() => handleFilePicker()}
+                style={{
+                  marginHorizontal: moderateScale(8),
+                  color: 'blue',
+                }}>
+                <Image
+                  style={{height: 25, width: 25}}
+                  source={imagePath.icAttachment}
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => setIsImogiOpen(!isImogiOpen)}
                 style={{alignSelf: 'center'}}>

@@ -10,6 +10,6 @@ export default {
   icEdit: require('../assets/images/ic_edit.png'),
   icGroup: require('../assets/images/ic_group.png'),
   icVideo: require('../assets/images/ic_video.png'),
-  icPlus: require('../assets/images/ic_plus.png'),
+  icAttachment: require('../assets/images/ic_attachment.png'),
   icBigLight: require('../assets/images/ic_lightbg.png'),
 };
