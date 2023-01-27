@@ -182,10 +182,7 @@ const Messaging = ({navigation, route}) => {
                   marginHorizontal: moderateScale(8),
                   color: 'blue',
                 }}>
-                <Image
-                  style={{height: 25, width: 25}}
-                  source={imagePath.icAttachment}
-                />
+                <Icon name="attachment" size={25} color="grey" />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => setIsImogiOpen(!isImogiOpen)}
