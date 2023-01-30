@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   View,
   TextInput,
@@ -32,6 +32,7 @@ const Messaging = ({navigation, route}) => {
   const [user, setUser] = useState('');
   const [fileData, setFileData] = useState([]);
   const [isImogiOpen, setIsImogiOpen] = useState(false);
+  const refContainer = useRef(null);
 
   useEffect(() => {
     socketServices.initializeSocket();
@@ -96,6 +97,13 @@ const Messaging = ({navigation, route}) => {
     }
   };
 
+  //Scroll To End Implmented
+  useEffect(() => {
+    if (refContainer.current) {
+      refContainer.current.scrollToEnd();
+    }
+  }, [chatMessages]);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.flexView}>
@@ -143,6 +151,7 @@ const Messaging = ({navigation, route}) => {
             {chatMessages ? (
               <FlatList
                 data={chatMessages}
+                ref={refContainer}
                 renderItem={({item}) => (
                   <MessageComponent item={item} user={user} />
                 )}
