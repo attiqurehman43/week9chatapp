@@ -14,15 +14,24 @@ export default function MessageComponent({item, user}) {
             ? styles.mmessageWrapper
             : [styles.mmessageWrapper, {alignItems: 'flex-end'}]
         }>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Icon name="user" size={30} color="blue" style={styles.mvatar} />
+        <View
+          style={{
+            flexDirection: status ? 'row' : 'row-reverse',
+            alignItems: 'center',
+          }}>
+          <Icon name="user" size={30} color="blue" />
           {item.img &&
             item.img.map((ls, index) => {
               return (
                 <View key={index}>
                   <Image
                     source={{uri: ls.uri}}
-                    style={{height: 100, width: 100, marginBottom: 10}}
+                    style={{
+                      height: 100,
+                      width: 100,
+                      marginBottom: 10,
+                      // marginHorizontal: 5,
+                    }}
                   />
                 </View>
               );
@@ -32,7 +41,7 @@ export default function MessageComponent({item, user}) {
               style={
                 status
                   ? styles.mmessage
-                  : [styles.mmessage, {backgroundColor: 'rgb(194, 243, 194)'}]
+                  : [styles.mmesage, {backgroundColor: 'rgb(194, 243, 194)'}]
               }>
               <Text>{item.text}</Text>
             </View>

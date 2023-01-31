@@ -9,11 +9,6 @@ import actions from '../../redux/actions';
 import colors from '../../styles/colors';
 import RoundImage from '../../Components/RoundImage';
 import HorizontalLine from '../../Components/HorizontalLine';
-import {
-  moderateScale,
-  moderateScaleVertical,
-  textScale,
-} from '../../styles/responsiveSize';
 
 import styles from './styles';
 

@@ -97,9 +97,15 @@ export const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginBottom: 2,
+    marginHorizontal: 10,
   },
-  mvatar: {
-    marginRight: 5,
+  mmesage: {
+    maxWidth: '50%',
+    backgroundColor: '#f5ccc2',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 2,
+    marginHorizontal: 10,
   },
 
   cchat: {
