@@ -2,9 +2,12 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useSelector} from 'react-redux';
 
-export default function MessageComponent({item, user}) {
-  const status = item.user !== user;
+export default function MessageComponent({item}) {
+  const currentUser = useSelector(state => state.auth);
+
+  const status = item.sender !== currentUser.userData._id;
 
   return (
     <View>

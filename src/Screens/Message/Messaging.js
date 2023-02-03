@@ -16,47 +16,54 @@ import {styles} from './styles';
 import imagePath from '../../constants/imagePath';
 import RoundImage from '../../Components/RoundImage';
 import EmojiSelector from 'react-native-emoji-selector';
-import {
-  moderateScale,
-  moderateScaleVertical,
-} from '../../styles/responsiveSize';
+import {moderateScale} from '../../styles/responsiveSize';
 import FilePicker, {types} from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/Entypo';
+import {useSelector} from 'react-redux';
+import store from '../../redux/store';
+import {saveMessages} from '../../redux/reducers/MessageRed';
 
 const Messaging = ({navigation, route}) => {
-  console.log('route', route);
   const {data} = route.params;
+
+  const currentUser = useSelector(state => state.auth);
+  const storedMsg = useSelector(state => state.MessageRed.messages);
 
   const [chatMessages, setChatMessages] = useState([]);
   const [message, setMessage] = useState('');
-  const [user, setUser] = useState('');
+  const [reciever, setReciever] = useState(data._id);
   const [fileData, setFileData] = useState([]);
   const [isImogiOpen, setIsImogiOpen] = useState(false);
   const refContainer = useRef(null);
 
   useEffect(() => {
     socketServices.initializeSocket();
-    generatUserName();
-  }, []);
-
-  function generatUserName() {
-    var result = '';
-    var characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < 6; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    if (chatMessages.length === 0) {
+      storedMsg.map(msg => {
+        getMessage(msg, false);
+      });
     }
-    setUser(result);
-  }
+  }, []);
 
   useEffect(() => {
     socketServices.on('received_message', msg => {
-      console.log('Message Received in ReactApp', msg);
-
-      setChatMessages(previousData => [...previousData, msg]);
+      getMessage(msg, true);
     });
+    return () => setChatMessages([]);
   }, []);
+
+  const getMessage = (msg, newMsg) => {
+    if (currentUser.userData._id == msg.reciever && reciever == msg.sender) {
+      setChatMessages(previousData => [...previousData, msg]);
+      newMsg && store.dispatch(saveMessages(msg));
+    } else if (
+      currentUser.userData._id == msg.sender &&
+      reciever == msg.reciever
+    ) {
+      setChatMessages(previousData => [...previousData, msg]);
+      newMsg && store.dispatch(saveMessages(msg));
+    }
+  };
 
   const handleNewMessage = () => {
     const hour =
@@ -72,10 +79,11 @@ const Messaging = ({navigation, route}) => {
     const time = hour + ':' + mins;
 
     socketServices.emit('send_message', {
-      id: message.length + 1,
+      id: chatMessages.length + 1,
       text: message,
       img: fileData.length > 0 && fileData,
-      user: user,
+      sender: currentUser.userData._id,
+      reciever: reciever,
       time: time,
     });
     setMessage('');
@@ -152,9 +160,7 @@ const Messaging = ({navigation, route}) => {
               <FlatList
                 data={chatMessages}
                 ref={refContainer}
-                renderItem={({item}) => (
-                  <MessageComponent item={item} user={user} />
-                )}
+                renderItem={({item}) => <MessageComponent item={item} />}
                 keyExtractor={(item, index) => index.toString()}
               />
             ) : null}

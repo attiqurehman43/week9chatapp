@@ -9,11 +9,12 @@ import actions from '../../redux/actions';
 import colors from '../../styles/colors';
 import RoundImage from '../../Components/RoundImage';
 import HorizontalLine from '../../Components/HorizontalLine';
-
+import {useSelector} from 'react-redux';
 import styles from './styles';
 
 const Users = ({navigation}) => {
   const [data, setData] = useState([]);
+  const currentUser = useSelector(state => state.auth);
 
   useEffect(() => {
     fetchData();
@@ -24,7 +25,9 @@ const Users = ({navigation}) => {
       const res = await actions.fetchUsers();
       console.log('res fetchUsers', res);
       if (!!res?.data) {
-        setData(res.data.users);
+        setData(
+          res.data.users.filter(user => user._id !== currentUser.userData._id),
+        );
       }
     } catch (error) {
       console.log('Error Raised During fetchUser', error);
@@ -75,7 +78,7 @@ const Users = ({navigation}) => {
     <WrapperContainer containerStyle={{paddingHorizontal: 0}}>
       <HeaderComponent
         rightPressActive={false}
-        centerText={strings.NEW_CHAT}
+        centerText={currentUser.userData.name}
         containerStyle={{paddingHorizontal: 8}}
         rightText={strings.CANCEL}
         rightTextStyle={{color: colors.lightBlue}}
